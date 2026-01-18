@@ -2,7 +2,9 @@ import User from "../models/user.model.js"
 import bcrypt, { hash } from "bcryptjs"
 import genToken from "../utils/token.js"
 import { sendOtpMail } from "../utils/mail.js"
-export const signUp=async (req,res) => {
+
+
+export const signUp = async (req,res) => {
     try {
         const {fullName,email,password,mobile,role}=req.body
         let user=await User.findOne({email})
@@ -15,7 +17,7 @@ export const signUp=async (req,res) => {
         if(mobile.length<10){
             return res.status(400).json({message:"mobile no must be at least 10 digits."})
         }
-     
+
         const hashedPassword=await bcrypt.hash(password,10)
         user=await User.create({
             fullName,
@@ -32,7 +34,7 @@ export const signUp=async (req,res) => {
             maxAge:7*24*60*60*1000,
             httpOnly:true
         })
-  
+
         return res.status(201).json(user)
 
     } catch (error) {
@@ -47,7 +49,7 @@ export const signIn=async (req,res) => {
         if(!user){
             return res.status(400).json({message:"User does not exist."})
         }
-        
+
      const isMatch=await bcrypt.compare(password,user.password)
      if(!isMatch){
          return res.status(400).json({message:"incorrect Password"})
@@ -60,7 +62,7 @@ export const signIn=async (req,res) => {
             maxAge:7*24*60*60*1000,
             httpOnly:true
         })
-  
+
         return res.status(200).json(user)
 
     } catch (error) {
@@ -93,7 +95,7 @@ export const sendOtp=async (req,res) => {
     return res.status(200).json({message:"otp sent successfully"})
   } catch (error) {
      return res.status(500).json(`send otp error ${error}`)
-  }  
+  }
 }
 
 export const verifyOtp=async (req,res) => {
@@ -147,7 +149,7 @@ export const googleAuth=async (req,res) => {
             maxAge:7*24*60*60*1000,
             httpOnly:true
         })
-  
+
         return res.status(200).json(user)
 
 
