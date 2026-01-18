@@ -10,6 +10,7 @@ const mapSlice=createSlice({
        address:null
 
     },
+   //  hello
     reducers:{
        setLocation:(state,action)=>{
         const {lat,lon}=action.payload
@@ -19,7 +20,7 @@ const mapSlice=createSlice({
        setAddress:(state,action)=>{
         state.address=action.payload
        }
-       
+
     }
 })
 
